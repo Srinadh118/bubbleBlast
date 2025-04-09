@@ -3,6 +3,20 @@ let timer = 60;
 let newHit = 0;
 let score = 0;
 
+function rulesOverlay() {
+  let startplay = document.querySelector(".rules-card button");
+  let rulesPanel = document.querySelector(".info-overlay");
+  rulesPanel.style.display = "flex";
+  startplay.addEventListener("click", () => {
+    setTimeout(() => {
+      rulesPanel.style.display = "none";
+      makeBubble();
+      bubbleTimer();
+      getNewHit();
+    }, 200);
+  });
+}
+
 function gameOver() {
   panelbtm.innerHTML = `<div class="gameend">
               <h1>Game Over</h1>
@@ -21,13 +35,19 @@ function gameOver() {
       makeBubble();
       bubbleTimer();
       getNewHit();
+      document.querySelector("#timerval").textContent = `60`;
     }, 2000);
   });
 }
 
-function increaseScore() {
-  score += 10;
-  document.querySelector("#scoreval").textContent = score;
+function increaseScore(val) {
+  if (val) {
+    score += 10;
+    document.querySelector("#scoreval").textContent = score;
+  } else if (score > 0) {
+    score -= 5;
+    document.querySelector("#scoreval").textContent = score;
+  }
 }
 
 function getNewHit() {
@@ -58,8 +78,26 @@ function playPause(val) {
 
 function makeBubble() {
   let clutter = "";
-  for (let i = 1; i < 120; i++) {
-    let rn = Math.floor(Math.random() * 10);
+
+  let screenWidth = window.innerWidth;
+  let totalBubbles = 0;
+
+  if (screenWidth >= 1440) {
+    totalBubbles = 255;
+  } else if (screenWidth >= 1200) {
+    totalBubbles = 200;
+  } else if (screenWidth >= 1024) {
+    totalBubbles = 130;
+  } else if (screenWidth >= 768) {
+    totalBubbles = 120;
+  } else {
+    totalBubbles = 50;
+  }
+
+  let forcedIndex = Math.floor(Math.random() * totalBubbles);
+
+  for (let i = 1; i <= totalBubbles; i++) {
+    let rn = i === forcedIndex ? newHit : Math.floor(Math.random() * 10);
     clutter += `<div class="bubble">${rn}
     <div class="blastBubble"><img src="blast.gif" alt="" /></div>
     </div>`;
@@ -68,7 +106,7 @@ function makeBubble() {
 }
 panelbtm.addEventListener("click", (e) => {
   playerHit = Number(e.target.textContent);
-  if (playerHit === newHit) {
+  if (playerHit === newHit && timer > 0) {
     const blast = e.target.querySelector(".blastBubble");
     blast.style.display = "block";
     e.target.style.animationName = "blastBubble";
@@ -77,7 +115,7 @@ panelbtm.addEventListener("click", (e) => {
     setTimeout(() => {
       blast.style.display = "none";
       e.target.style.animationName = "";
-      increaseScore();
+      increaseScore(true);
       makeBubble();
       getNewHit();
     }, 300);
@@ -87,6 +125,7 @@ panelbtm.addEventListener("click", (e) => {
       : (e.target.style.animationName = "");
     e.target.style.animationDuration = "0.3s";
     setTimeout(() => {
+      increaseScore(false);
       e.target.style.animationName = "";
     }, 300);
   }
@@ -97,7 +136,7 @@ let playPauseShow = document.querySelector("#pause");
 let pauseBtn = document.querySelector("#pause-play");
 let pauseOverlay = document.querySelector(".pause-overlay");
 document.querySelector(".menu").addEventListener("click", () => {
-  if (play) {
+  if (play && timer > 0) {
     playPause(play);
     play = false;
     playPauseShow.innerHTML = "Play";
@@ -117,8 +156,6 @@ playNow.addEventListener("click", () => {
   playNow.innerHTML = `Setting Up...`;
   setTimeout(() => {
     document.querySelector(".play-overlay").style.display = "none";
-    makeBubble();
-    bubbleTimer();
-    getNewHit();
+    rulesOverlay();
   }, 2000);
 });

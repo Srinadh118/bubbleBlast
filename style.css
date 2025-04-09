@@ -13,30 +13,15 @@ body {
 
 @keyframes giggle {
   20% {
-    background: linear-gradient(
-      to bottom right,
-      transparent,
-      rgba(130, 38, 70, 0.7960784314),
-      #62001d
-    );
+    background: linear-gradient(to bottom right, transparent, rgba(130, 38, 70, 0.7960784314), #62001d);
   }
   40% {
     transform: translateX(10%);
-    background: linear-gradient(
-      to bottom right,
-      transparent,
-      rgba(130, 38, 70, 0.7960784314),
-      #62001d
-    );
+    background: linear-gradient(to bottom right, transparent, rgba(130, 38, 70, 0.7960784314), #62001d);
   }
   80% {
     transform: translateX(-20%);
-    background: linear-gradient(
-      to bottom right,
-      transparent,
-      rgba(130, 38, 70, 0.7960784314),
-      #62001d
-    );
+    background: linear-gradient(to bottom right, transparent, rgba(130, 38, 70, 0.7960784314), #62001d);
   }
   100% {
     transform: translateX(0);
@@ -55,19 +40,36 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.3rem;
 }
 #main .title {
-  font-size: 3rem;
+  text-align: center;
+  font-size: 2.5rem;
   color: #adbacb;
 }
 #main #panel {
-  height: 80%;
-  width: 80%;
+  height: 90%;
+  width: 95%;
   background-color: #fafafa;
   border-radius: 0.8em;
   overflow: hidden;
   position: relative;
+}
+#main #panel .pause-overlay {
+  width: 100%;
+  height: calc(100% - 130px);
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: rgba(27, 42, 64, 0.8705882353);
+}
+#main #panel .pause-overlay h1 {
+  font-size: 2rem;
+  color: #adbacb;
 }
 #main #panel .play-overlay {
   width: 100%;
@@ -83,7 +85,8 @@ body {
   background-color: #1b2a40;
 }
 #main #panel .play-overlay h1 {
-  font-size: 2rem;
+  font-size: 1.5rem;
+  text-align: center;
   color: #adbacb;
 }
 #main #panel .play-overlay button {
@@ -105,87 +108,133 @@ body {
 #main #panel .play-overlay button:active {
   scale: 0.9;
 }
-#main #panel .pause-overlay {
+#main #panel .info-overlay {
   width: 100%;
-  height: calc(100% - 100px);
+  height: 100%;
   position: absolute;
   left: 0;
   bottom: 0;
   display: none;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(27, 42, 64, 0.8705882353);
+  background-color: rgba(27, 42, 64, 0.4666666667);
 }
-#main #panel .pause-overlay h1 {
-  font-size: 3rem;
+#main #panel .info-overlay .rules-card {
+  overflow-y: auto;
+  width: 100%;
+  height: 100%;
+  font-size: 0.8rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #1b2a40;
   color: #adbacb;
+  border-radius: 6px;
+  gap: 1rem;
+}
+#main #panel .info-overlay .rules-card h1 {
+  font-size: 1.5rem;
+  color: #bbc8d9;
+}
+#main #panel .info-overlay .rules-card ol ul {
+  margin-left: 1.5rem;
+  list-style: disc;
+}
+#main #panel .info-overlay .rules-card button {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fafafa;
+  border: none;
+  padding: 0.3em 1.5em;
+  background-color: #328300;
+  border-radius: 6px;
+  transition: all 0.3s linear;
+  box-shadow: -2px 2px 1px 1px #1aad00;
+  text-decoration: none;
+}
+#main #panel .info-overlay .rules-card button:hover {
+  background-color: #1b6d00;
+  box-shadow: -2px 2px 1px 1px #31b700;
+  cursor: pointer;
+}
+#main #panel .info-overlay .rules-card button:active {
+  scale: 0.9;
 }
 #main #panel #paneltop {
   width: 100%;
-  height: 100px;
+  height: 130px;
   background-color: rgb(32, 53, 73);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4.5rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  place-items: stretch;
+  place-content: end;
+  gap: 0.5rem;
+  padding: 1rem;
 }
 #main #panel #paneltop .menu {
+  place-self: stretch;
   display: flex;
   align-items: center;
   gap: 0.8rem;
 }
 #main #panel #paneltop .menu h3 {
   color: #d8dee6;
-  font-size: 1.275rem;
+  font-size: 1rem;
   font-weight: 400;
 }
 #main #panel #paneltop .menu .box {
-  font-size: 1.275rem;
+  font-size: 1rem;
   font-weight: 500;
-  padding: 0.2em 0.6em;
+  padding: 0.2em 0.4em;
   color: #004e9c;
   background-color: #adbacb;
   border-radius: 5px;
 }
 #main #panel #paneltop .menu .box svg {
-  width: 28px;
-  height: 28px;
+  width: 16px;
+  height: 16px;
   vertical-align: middle;
   cursor: pointer;
 }
 #main #panel #paneltop .menu #exitGame {
-  padding: 0.3em 0.9em;
-  background-color: #0281b8;
-  color: #d8dee6;
-  font-weight: 600;
-  border-radius: 6px;
   text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fafafa;
+  border: none;
+  padding: 0.2em 1em;
+  background-color: #00a6ed;
+  border-radius: 6px;
+  transition: all 0.3s linear;
+  box-shadow: -2px 2px 1px 1px #0281b8;
+}
+#main #panel #paneltop .menu #exitGame:hover {
+  background-color: #0095d5;
+  box-shadow: -2px 2px 1px 1px #00a6ed;
+  cursor: pointer;
+}
+#main #panel #paneltop .menu #exitGame:active {
+  scale: 0.9;
 }
 #main #panel #panelbtm {
-  overflow: visible;
+  overflow-y: auto;
   width: 100%;
-  height: calc(100% - 100px);
-  padding: 1em;
+  height: calc(100% - 130px);
+  padding: 0.5em 1em;
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-wrap: wrap;
   background-color: rgb(104, 134, 161);
   gap: 0.6em;
 }
 #main #panel #panelbtm .bubble {
   position: relative;
-  height: 60px;
-  width: 60px;
-  font-size: 1.2rem;
+  height: 45px;
+  width: 45px;
+  font-size: 1rem;
   font-weight: 700;
   border-radius: 50%;
-  background: linear-gradient(
-    to bottom right,
-    transparent,
-    rgba(38, 86, 130, 0.7960784314),
-    #004062
-  );
+  background: linear-gradient(to bottom right, transparent, rgba(38, 86, 130, 0.7960784314), #004062);
   color: #fafafa;
   display: flex;
   align-items: center;
@@ -216,11 +265,12 @@ body {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
   -o-object-position: center;
-  object-position: center;
+     object-position: center;
 }
 #main #panel #panelbtm .gameend {
+  margin-inline: auto;
   color: #fafafa;
   display: flex;
   flex-direction: column;
@@ -255,4 +305,87 @@ body {
 }
 #main #panel #panelbtm .gameend #play-again:active {
   scale: 0.9;
+}
+#main #panel #panelbtm::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  #main .title {
+    font-size: 3rem;
+  }
+  #main #panel {
+    width: 95%;
+    height: 80%;
+  }
+  #main #panel .pause-overlay {
+    height: calc(100% - 100px);
+  }
+  #main #panel .pause-overlay h1 {
+    font-size: 3rem;
+    color: #adbacb;
+  }
+  #main #panel .play-overlay h1 {
+    font-size: 2rem;
+    text-align: center;
+    color: #adbacb;
+  }
+  #main #panel .info-overlay {
+    align-items: center;
+    justify-content: center;
+  }
+  #main #panel .info-overlay .rules-card {
+    width: -moz-fit-content;
+    width: fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    font-size: 1rem;
+  }
+  #main #panel #paneltop {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 1.5rem;
+  }
+  #main #panel #paneltop .menu h3 {
+    font-size: 1.275rem;
+  }
+  #main #panel #paneltop .menu .box {
+    font-size: 1.275rem;
+    padding: 0.2em 0.6em;
+  }
+  #main #panel #paneltop .menu .box svg {
+    width: 28px;
+    height: 28px;
+  }
+  #main #panel #paneltop .menu #exitGame {
+    font-size: 1.2rem;
+  }
+  #main #panel #panelbtm {
+    height: calc(100% - 100px);
+    justify-content: center;
+    gap: 0.8em;
+  }
+  #main #panel #panelbtm .bubble {
+    height: 60px;
+    width: 60px;
+    font-size: 1.2rem;
+  }
+}
+@media (min-width: 1024px) {
+  #main #panel {
+    width: 95%;
+    height: 76vh;
+  }
+  #main #panel #paneltop {
+    justify-content: center;
+    gap: 4.5rem;
+  }
+}
+@media (min-width: 1440px) {
+  #main #panel {
+    width: 80%;
+    height: 80vh;
+  }
 }
