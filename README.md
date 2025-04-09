@@ -39,3 +39,33 @@ A fun and interactive number-matching bubble game made with **HTML**, **CSS**, a
 
 ## 📁 File Structure
 
+- simple file structure 
+- changes with more advancements in the future
+
+---
+
+## 🧩 Future Ideas
+
+- Add sound effects for clicks and success/failure
+- Save high scores with localStorage
+- Add difficulty levels
+- Touch support for mobile
+
+---
+
+## 📸 Screenshot
+
+> ![image](https://github.com/user-attachments/assets/eff42281-a9bd-4a9d-b116-c52caef428cf)
+
+---
+
+## 👨‍💻 Author
+
+Made with ❤️ by Srinadh
+
+---
+
+## 📝 License
+
+This project is open source and free to use.
+
