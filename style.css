@@ -1,0 +1,258 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+@keyframes giggle {
+  20% {
+    background: linear-gradient(
+      to bottom right,
+      transparent,
+      rgba(130, 38, 70, 0.7960784314),
+      #62001d
+    );
+  }
+  40% {
+    transform: translateX(10%);
+    background: linear-gradient(
+      to bottom right,
+      transparent,
+      rgba(130, 38, 70, 0.7960784314),
+      #62001d
+    );
+  }
+  80% {
+    transform: translateX(-20%);
+    background: linear-gradient(
+      to bottom right,
+      transparent,
+      rgba(130, 38, 70, 0.7960784314),
+      #62001d
+    );
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@keyframes blastBubble {
+  to {
+    transform: scale(0);
+  }
+}
+#main {
+  height: 100%;
+  width: 100%;
+  background-color: rgb(37, 78, 118);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+#main .title {
+  font-size: 3rem;
+  color: #adbacb;
+}
+#main #panel {
+  height: 80%;
+  width: 80%;
+  background-color: #fafafa;
+  border-radius: 0.8em;
+  overflow: hidden;
+  position: relative;
+}
+#main #panel .play-overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background-color: #1b2a40;
+}
+#main #panel .play-overlay h1 {
+  font-size: 2rem;
+  color: #adbacb;
+}
+#main #panel .play-overlay button {
+  font-size: 1.2rem;
+  color: #fafafa;
+  border: none;
+  padding: 0.3em 1.5em;
+  background-color: #00a6ed;
+  border-radius: 6px;
+  transition: all 0.3s linear;
+  box-shadow: -2px 2px 1px 1px #0281b8;
+  text-decoration: none;
+}
+#main #panel .play-overlay button:hover {
+  background-color: #0095d5;
+  box-shadow: -2px 2px 1px 1px #00a6ed;
+  cursor: pointer;
+}
+#main #panel .play-overlay button:active {
+  scale: 0.9;
+}
+#main #panel .pause-overlay {
+  width: 100%;
+  height: calc(100% - 100px);
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(27, 42, 64, 0.8705882353);
+}
+#main #panel .pause-overlay h1 {
+  font-size: 3rem;
+  color: #adbacb;
+}
+#main #panel #paneltop {
+  width: 100%;
+  height: 100px;
+  background-color: rgb(32, 53, 73);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4.5rem;
+}
+#main #panel #paneltop .menu {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+#main #panel #paneltop .menu h3 {
+  color: #d8dee6;
+  font-size: 1.275rem;
+  font-weight: 400;
+}
+#main #panel #paneltop .menu .box {
+  font-size: 1.275rem;
+  font-weight: 500;
+  padding: 0.2em 0.6em;
+  color: #004e9c;
+  background-color: #adbacb;
+  border-radius: 5px;
+}
+#main #panel #paneltop .menu .box svg {
+  width: 28px;
+  height: 28px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+#main #panel #paneltop .menu #exitGame {
+  padding: 0.3em 0.9em;
+  background-color: #0281b8;
+  color: #d8dee6;
+  font-weight: 600;
+  border-radius: 6px;
+  text-decoration: none;
+}
+#main #panel #panelbtm {
+  overflow: visible;
+  width: 100%;
+  height: calc(100% - 100px);
+  padding: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-color: rgb(104, 134, 161);
+  gap: 0.6em;
+}
+#main #panel #panelbtm .bubble {
+  position: relative;
+  height: 60px;
+  width: 60px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border-radius: 50%;
+  background: linear-gradient(
+    to bottom right,
+    transparent,
+    rgba(38, 86, 130, 0.7960784314),
+    #004062
+  );
+  color: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s linear;
+  animation-timing-function: linear;
+}
+#main #panel #panelbtm .bubble:hover {
+  background-color: #124560;
+  cursor: pointer;
+  box-shadow: 0px 0px 10px 0.5px #123960;
+}
+#main #panel #panelbtm .bubble:active {
+  scale: 0.8;
+  box-shadow: 0px 0px 30px 5px #124160;
+}
+#main #panel #panelbtm .bubble .blastBubble {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  display: none;
+}
+#main #panel #panelbtm .bubble .blastBubble img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  -o-object-position: center;
+  object-position: center;
+}
+#main #panel #panelbtm .gameend {
+  color: #fafafa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #1b2a40;
+  border-radius: 6px;
+}
+#main #panel #panelbtm .gameend h2 {
+  font-size: 1.2rem;
+  font-weight: 200;
+}
+#main #panel #panelbtm .gameend h2 {
+  font-weight: 300;
+}
+#main #panel #panelbtm .gameend #play-again {
+  font-size: 1.2rem;
+  color: #fafafa;
+  border: none;
+  padding: 0.3em 1.5em;
+  background-color: #00a6ed;
+  border-radius: 6px;
+  transition: all 0.3s linear;
+  box-shadow: -2px 2px 1px 1px #0281b8;
+  text-decoration: none;
+}
+#main #panel #panelbtm .gameend #play-again:hover {
+  background-color: #0095d5;
+  box-shadow: -2px 2px 1px 1px #00a6ed;
+  cursor: pointer;
+}
+#main #panel #panelbtm .gameend #play-again:active {
+  scale: 0.9;
+}
