@@ -2,6 +2,7 @@
 
 A fun and interactive number-matching bubble game made with **HTML**, **CSS**, and **JavaScript**. The objective is to click on the correct number bubble before the timer runs out. Perfect for learning DOM manipulation and event handling in vanilla JS!
 
+live demo: https://srinadh118.github.io/bubbleBlast/
 ---
 
 ## 🚀 Features
