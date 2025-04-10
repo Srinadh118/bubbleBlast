@@ -2,6 +2,96 @@ let panelbtm = document.querySelector("#panelbtm");
 let timer = 60;
 let newHit = 0;
 let score = 0;
+const popSound = new Audio("assets/bubblepop.mp3");
+const errorSound = new Audio("assets/error.mp3");
+
+const bgMusic = {
+  current: null,
+  next: null,
+  isMuted: false,
+  fadeInterval: null,
+
+  play(src, loop = false, volume = 0.1) {
+    this.stop();
+    this.current = new Audio(src);
+    this.current.loop = loop;
+    this.current.volume = volume;
+    this.current.play();
+  },
+  chainNext(src, loop = true) {
+    this.next = new Audio(src);
+    this.next.loop = loop;
+    this.next.volume = this.current.volume;
+    this.current.addEventListener("ended", () => {
+      this.next.play();
+      this.current = this.next;
+      this.next = null;
+    });
+  },
+  stop() {
+    if (this.fadeInterval) clearInterval(this.fadeInterval);
+    if (this.current) {
+      this.current.pause();
+      this.current = null;
+    }
+    if (this.next) {
+      this.next.pause();
+      this.next = null;
+    }
+  },
+  setVolume(vol) {
+    if (this.current) this.current.volume = vol;
+    if (this.next) this.next.volume = vol;
+  },
+  toggleMute() {
+    this.isMuted = !this.isMuted;
+    if (this.current) this.current.muted = this.isMuted;
+    if (this.next) this.next.muted = this.isMuted;
+  },
+  fadeOut(duration = 1000) {
+    if (!this.current) return;
+    const step = this.current.volume / (duration / 50);
+    this.fadeInterval = setInterval(() => {
+      if (this.current.volume > step) {
+        this.current.volume -= step;
+      } else {
+        this.current.volume = 0;
+        this.current.pause();
+        clearInterval(this.fadeInterval);
+      }
+    }, 50);
+  },
+
+  fadeIn(src, targetVolume = 0.1, duration = 1000, loop = true) {
+    this.stop();
+    const audio = new Audio(src);
+    this.current = audio;
+    audio.volume = 0;
+    audio.loop = loop;
+    audio.play();
+
+    const step = targetVolume / (duration / 50);
+    this.fadeInterval = setInterval(() => {
+      if (this.current.volume < targetVolume - step) {
+        this.current.volume += step;
+      } else {
+        this.current.volume = targetVolume;
+        clearInterval(this.fadeInterval);
+      }
+    }, 50);
+  },
+
+  playRandom(trackList = [], loop = true, volume = 0.1) {
+    if (!trackList.length) return;
+    const index = Math.floor(Math.random * trackList.length);
+    this.play(trackList[index], loop, volume);
+  },
+
+  setTrack(index, trackList, loop = true, volume = 0.1) {
+    if (index < 0 || index > trackList.length) return;
+    this.play(trackList[index], loop, volume);
+  },
+};
 
 function rulesOverlay() {
   let startplay = document.querySelector(".rules-card button");
@@ -32,6 +122,8 @@ function gameOver() {
     score = 0;
     playAgain.innerHTML = `Setting Up...`;
     setTimeout(() => {
+      bgMusic.fadeIn("assets/bg1.mp3", 0.05, 2000, false);
+      bgMusic.chainNext("assets/bg2.mp3");
       makeBubble();
       bubbleTimer();
       getNewHit();
@@ -72,8 +164,12 @@ function bubbleTimer() {
 }
 
 function playPause(val) {
-  if (val) clearInterval(timeInterval);
-  else bubbleTimer();
+  bgMusic.toggleMute();
+  if (val) {
+    clearInterval(timeInterval);
+  } else {
+    bubbleTimer();
+  }
 }
 
 function makeBubble() {
@@ -98,35 +194,49 @@ function makeBubble() {
 
   for (let i = 1; i <= totalBubbles; i++) {
     let rn = i === forcedIndex ? newHit : Math.floor(Math.random() * 10);
-    clutter += `<div class="bubble">${rn}
-    <div class="blastBubble"><img src="blast.gif" alt="" /></div>
-    </div>`;
+    clutter += `<div class="bubble">${rn}</div>`;
   }
   panelbtm.innerHTML = clutter;
 }
 panelbtm.addEventListener("click", (e) => {
   playerHit = Number(e.target.textContent);
-  if (playerHit === newHit && timer > 0) {
-    const blast = e.target.querySelector(".blastBubble");
-    blast.style.display = "block";
+  if (
+    playerHit === newHit &&
+    e.target.classList.contains("bubble") &&
+    timer > 0
+  ) {
+    const blastImg = new Image();
+    blastImg.src = "newblast.gif";
+    blastImg.className = "blastBubble";
+    e.target.appendChild(blastImg);
     e.target.style.animationName = "blastBubble";
-    e.target.style.animationDuration = "0.8s";
+    e.target.style.animationDuration = "0.3s";
+    popSound.volume = 0.4;
+    popSound.currentTime = 0;
+    popSound.play();
 
     setTimeout(() => {
-      blast.style.display = "none";
+      blastImg.remove();
       e.target.style.animationName = "";
+      e.target.style.animationDuration = "0s";
       increaseScore(true);
       makeBubble();
       getNewHit();
     }, 300);
-  } else {
-    e.target.classList.contains("bubble")
-      ? (e.target.style.animationName = "giggle")
-      : (e.target.style.animationName = "");
+  }
+  if (
+    playerHit !== newHit &&
+    e.target.classList.contains("bubble") &&
+    timer > 0
+  ) {
+    errorSound.currentTime = 0;
+    errorSound.play();
+    e.target.style.animationName = "giggle";
     e.target.style.animationDuration = "0.3s";
     setTimeout(() => {
       increaseScore(false);
       e.target.style.animationName = "";
+      e.target.style.animationDuration = "0s";
     }, 300);
   }
 });
@@ -142,7 +252,7 @@ document.querySelector(".menu").addEventListener("click", () => {
     playPauseShow.innerHTML = "Play";
     pauseBtn.innerHTML = `<path d="M8 5v14l11-7z" />`;
     pauseOverlay.style.display = "flex";
-  } else {
+  } else if (timer > 0) {
     playPause(play);
     play = true;
     playPauseShow.innerHTML = "Pause";
@@ -156,6 +266,13 @@ playNow.addEventListener("click", () => {
   playNow.innerHTML = `Setting Up...`;
   setTimeout(() => {
     document.querySelector(".play-overlay").style.display = "none";
+    bgMusic.fadeIn("assets/bg1.mp3", 0.05, 2000, false);
+    bgMusic.fadeOut(2000);
+    bgMusic.chainNext("assets/bg2.mp3");
     rulesOverlay();
   }, 2000);
 });
+
+// const bgSound1 = new Audio("assets/bg1.mp3");
+// const bgSound2 = new Audio("bg2.mp3");
+// bgMusic.play("assets/bg1.mp3", false, 0.1);
