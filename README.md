@@ -56,7 +56,8 @@ live demo: https://srinadh118.github.io/bubbleBlast/
 
 ## 📸 Screenshot
 
-> ![image](https://github.com/user-attachments/assets/eff42281-a9bd-4a9d-b116-c52caef428cf)
+> ![image](https://github.com/user-attachments/assets/c8799f47-3757-4993-94e5-5a85ccae9adf)
+
 
 ---
 
