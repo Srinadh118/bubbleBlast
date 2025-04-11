@@ -24,15 +24,18 @@ live demo: https://srinadh118.github.io/bubbleBlast/
 
 ## 🧠 How to Play
 
-1. A **target number** appears at the top.
-2. Click on any bubble that matches the target number.
-3. Every correct click:
+1. A **target number** (`Hit`) appears at the top.
+2. Click on any bubble that **matches the target number**.
+3. ✅ **Correct clicks**:
    - triggers a bubble "blast" animation
-   - Increases your score
-   - Refreshes the bubble layout
-   - Generates a new target number
-5. Wrong clicks trigger a "giggle" animation.
-6. The game ends when the timer reaches 0.
+   - Increase your score by **+10**
+   - Generate a new set of bubbles
+   - Update the target number
+4. ❌ **Wrong clicks**:
+   - Deduct **-5 points**
+   - Trigger a short animation("giggle") as feedback
+5. The game starts with a **60-second timer**.
+6. ⌛ The game ends automatically when the timer hits **0**.
 
 ---
 
