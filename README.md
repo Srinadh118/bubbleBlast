@@ -5,6 +5,12 @@ A fun and interactive number-matching bubble game made with **HTML**, **CSS**, a
 live demo: https://srinadh118.github.io/bubbleBlast/
 ---
 
+## 🧩 New Features
+
+- Added sound effects for clicks and success/failure
+- Added background Music
+- Touch support for mobile
+
 ## 🚀 Features
 
 - Random bubble grid with numbers (0–9)
@@ -47,10 +53,8 @@ live demo: https://srinadh118.github.io/bubbleBlast/
 
 ## 🧩 Future Ideas
 
-- Add sound effects for clicks and success/failure
 - Save high scores with localStorage
 - Add difficulty levels
-- Touch support for mobile
 
 ---
 
